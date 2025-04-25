@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Poll{% endblock %}
+
+{% block content %} 
+<div class="container mt-4">
+    <h1>Delete Poll</h1>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Are you sure you want to delete this poll?</h5>
+            <p class="card-text">{{ question.question_text }}</p>
+            <p class="card-text">Published on: {{ question.pub_date|date:"F j, Y" }}</p>
+            <form action="{% url 'Poll_App:delete' question.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>    
+                <a href="{% url 'Poll_App:detail' question.id %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'Poll_App:home' %}" class="btn btn-secondary">Back to Polls</a>
+    </div>
+</div>
+{% endblock %}

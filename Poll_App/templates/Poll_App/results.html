@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Poll Results{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Poll Results</h1>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">{{ question.question_text }}</h5>
+            <p class="card-text">Published on: {{ question.pub_date|date:"F j, Y" }}</p>
+
+            {% for choice in question.choice_set.all %}
+                <div class="mb-3">
+                    <strong>{{ choice.choice_text }}</strong>: {{ choice.votes }} votes
+                </div>
+            {% endfor %}
+
+            <a href="{% url 'Poll_App:home' %}" class="btn btn-secondary">Back to Polls</a>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'Poll_App:update' question.id %}" class="btn btn-primary">Update Poll</a>
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'Poll_App:delete' question.id %}" class="btn btn-danger">Delete Poll</a>
+    </div>
+</div>
+{% endblock %}

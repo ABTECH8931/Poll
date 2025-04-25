@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Polls{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1>Polls</h1>
+    <div class="row">
+        {% for question in question_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ question.question_text }}</h5>
+                    <p class="card-text">Published on: {{ question.pub_date|date:"F j, Y" }}</p>
+                    <a href="{% url 'Poll_App:detail' question.id %}" class="btn btn-primary">View Poll</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>No polls available. <a href="{% url 'Poll_App:create' %}">Create one?</a></p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'Poll_App:create' %}" class="btn btn-success">Create New Poll</a>
+    </div>
+</div>
+{% endblock %}

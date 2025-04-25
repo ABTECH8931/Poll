@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}{{ question.question_text }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Poll Details</h1>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">{{ question.question_text }}</h5>
+            <p class="card-text">Published on: {{ question.pub_date|date:"F j, Y" }}</p>
+            
+            <h6>Options</h6>
+            <ul class="list-group list-group-flush">
+                {% for choice in choices %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ choice.choice_text }}
+                    <span class="badge bg-primary rounded-pill">
+                        {{ choice.votes }} vote{{ choice.votes|pluralize }}
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <form action="{% url 'Poll_App:vote' question.id %}" method="post" class="mt-4">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Select an option:</label>
+                    {% for choice in choices %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" 
+                               name="choice" id="choice{{ forloop.counter }}"
+                               value="{{ choice.id }}">
+                        <label class="form-check-label" for="choice{{ forloop.counter }}">
+                            {{ choice.choice_text }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary">Vote</button>
+            </form>
+            <div class="text-center mt-4">
+                <a href="{% url 'Poll_App:results' question.id %}" class="btn btn-primary">
+                    Poll Results
+                </a>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="{% url 'Poll_App:home' %}" class="btn btn-secondary">
+                    Back to Polls
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

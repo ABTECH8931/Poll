@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Update Poll{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Update Poll</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.as_p }}
+        </div>
+        
+        <h4>Current Choices</h4>
+        {% for choice in existing_choices %}
+        <div class="mb-3">
+            <label for="choice_{{ choice.id }}" class="form-label">Choice {{ forloop.counter }}</label>
+            <input type="text" name="choice_{{ choice.id }}" 
+                   class="form-control" value="{{ choice.choice_text }}" required>
+        </div>
+        {% endfor %}
+        
+        <h4 class="mt-4">Add New Choices</h4>
+        {% for i in 1..4 %}
+        <div class="mb-3">
+            <label for="new_choice_{{ i }}" class="form-label">New Choice {{ i }}</label>
+            <input type="text" name="new_choice_{{ i }}" class="form-control">
+        </div>
+        {% endfor %}
+        
+        <button type="submit" class="btn btn-primary mt-3">Update Poll</button>
+        <a href="{% url 'Poll_App:home' %}" class="btn btn-secondary mt-3 ms-2">Cancel</a>
+    </form>
+</div>
+{% endblock %}

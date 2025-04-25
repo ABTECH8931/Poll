@@ -16,3 +16,5 @@ Frontend: Bootstrap 5
 Database: SQLite (default) / PostgreSQL (production-ready)
 
 Deployment: Gunicorn + Whitenoise
+
+Link to project: https://poll-pv2c.onrender.com
